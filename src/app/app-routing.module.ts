@@ -12,9 +12,9 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'main',
-    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
-  },
+    path: 'quiz',
+    loadChildren: () => import('./quiz/quiz.module').then(m => m.QuizPageModule)
+  }
 ];
 
 @NgModule({
