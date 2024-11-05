@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionService } from '../services/question.service';
+import {Question} from "../Models/Question";
 
 @Component({
   selector: 'app-quiz',
@@ -11,11 +12,21 @@ export class QuizPage implements OnInit {
   currentQuestionId = 1; // Start with the first question
   selectedOption: string | null = null; // Store selected option
   correctAnswer: string | null = null;
+  private displayedQuestionIds: number[] = [];
+  questions: Question[] = [];
 
   constructor(private questionService: QuestionService) {}
 
   ngOnInit() {
-    this.loadQuestion(this.currentQuestionId);
+    //this.loadQuestion(this.currentQuestionId);
+    this.getQuestions();
+  }
+
+  getQuestions() {
+    this.questionService.getRandomQuestions(20, this.displayedQuestionIds).subscribe((questions) => {
+      this.displayedQuestionIds.push(...questions.map(q => q.id));
+      this.questions.push(...questions);  // Add to existing questions for lazy loading
+    });
   }
 
   loadQuestion(id: number) {
